@@ -1,0 +1,8 @@
+h1 {
+    border: 22px solid blue;  /* Changez selon vos préférences */
+    padding: 8px;           /* Ajustez selon vos besoins */
+    border-radius: 4px;     /* Arrondi des coins, ajustez selon vos besoins */
+    margin: 10px 0;         /* Espacement avant et après le titre */
+    color: rgb(255, 0, 136);
+    text-align: center;
+}

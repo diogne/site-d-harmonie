@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La page web d'Harmonie</title>
+    <!-- importer la feuille de style theme.css -->
+    <link rel="stylesheet" href="./theme.css" media="screen" type="text/css" />
+
+</head>
+<body>
+    <h1>La page web d'Harmonie</h1>
+    <p>Salut, je suis Harmonie</p>
+    <p>Je suis une fille de 11 ans et demi</p>
+    <button id="btn_cliquez_moi">Cliquez moi</button>
+
+
+    <script>
+        // On récupère le bouton
+        let bouton = document.getElementById('btn_cliquez_moi');
+
+        let texte_secret = "Ce soir, le menu, c'est MOULES FRITES (et pizza)"
+
+        // On ajoute un écouteur d'évènement au clic
+        bouton.addEventListener('click', function() {
+
+            let code_secret = "moules frites pizza façon atlantide"
+            // créer un input pour demander le code secret
+            let input_element = document.createElement('input');
+            input_element.setAttribute('type', 'text');
+            input_element.setAttribute('placeholder', 'Quel est le code secret pour lire le texte secret ? ');
+            document.body.appendChild(input_element);
+            // récupérer le nombre de caractères du code_secret : 
+            let nombre_de_caracteres_du_code_secret = code_secret.length;
+            let nombre_de_caracteres_autorisés = nombre_de_caracteres_du_code_secret + 5;
+            let compteur_de_caracteres = 0;
+
+            let element_pour_texte_code_pas_bon = document.createElement('p');
+
+            document.body.appendChild(element_pour_texte_code_pas_bon);
+
+            // écouteur d'évèmnements sur l'input : 
+            input_element.addEventListener('input', function() {
+
+                compteur_de_caracteres ++ 
+                // console.log('Vous avez tapé ' + compteur_de_caracteres + ' caractères');
+                let nombre_d_essais_avant_POLICE = nombre_de_caracteres_autorisés - compteur_de_caracteres;
+                console.log('Vous avez tapé quelque chose dans l\'input');
+                console.log('Vous avez tapé : ' + input_element.value);
+                if (input_element.value == code_secret) {
+                    // création d'un texte en vert pour dire que le code est bon
+                    let element_pour_texte_code_bon = document.createElement('p');
+                    element_pour_texte_code_bon.textContent = "Le code est bon !";
+                    element_pour_texte_code_bon.classList.add('code_bon');
+                    // colorer le texte en vert, le mettre en gras, et en gros
+                    element_pour_texte_code_bon.style.color = 'green';
+                    element_pour_texte_code_bon.style.fontWeight = 'bold';
+                    element_pour_texte_code_bon.style.fontSize = '2em';
+                    document.body.appendChild(element_pour_texte_code_bon);
+
+                    console.log('Vous avez trouvé le code secret !');
+                    // créer un nouveau p element avec le texte secret
+                    let element_pour_texte_secret = document.createElement('p');
+                    element_pour_texte_secret.textContent = texte_secret;
+                    element_pour_texte_secret.classList.add('secret');
+                    // add the new p element to the body
+                    document.body.appendChild(element_pour_texte_secret);
+                    // récupérer l'élément code_pas_bon
+                    let element_code_pas_bon = document.querySelector('.code_pas_bon');
+                    // supprimer l'élément code_pas_bon
+                    element_code_pas_bon.remove();
+                    // faire que le texte secret ne reste à l'écran que 3 secondes
+                    setTimeout(function() {
+                        element_pour_texte_secret.remove();
+                    }, 3000);
+                }
+                else {
+                    // créer un élément paragraphe en ROUGE pour dire que le code n'est pas bon
+                    element_pour_texte_code_pas_bon.textContent = 'Vous avez tapé ' + compteur_de_caracteres + ' caractères, encore ' +  nombre_d_essais_avant_POLICE + " avant qu on appelle la police et que t'ailles te faire cuire un oeuf en prison";
+                    element_pour_texte_code_pas_bon.classList.add('code_pas_bon');
+                    // colorer le texte en rouge, le mettre en gras, et en gros
+                    element_pour_texte_code_pas_bon.style.color = 'red';
+                    element_pour_texte_code_pas_bon.style.fontWeight = 'bold';
+                    element_pour_texte_code_pas_bon.style.fontSize = '2em';
+                    // 
+                    // Si le nombre de caractères tapés est supérieur au nombre de caractères autorisés
+                    if (compteur_de_caracteres > nombre_de_caracteres_autorisés) {
+                        // créer un élément paragraphe en ROUGE pour dire que le code n'est pas bon
+                        let element_pour_texte_code_pas_bon = document.createElement('p');
+                        element_pour_texte_code_pas_bon.textContent = 'Vous avez tapé ' + compteur_de_caracteres + ' caractères, on appelle la police et vous allez vous faire cuire un oeuf en prison';
+                        element_pour_texte_code_pas_bon.classList.add('code_pas_bon');
+                        // colorer le texte en rouge, le mettre en gras, et en gros
+                        element_pour_texte_code_pas_bon.style.color = 'red';
+                        element_pour_texte_code_pas_bon.style.fontWeight = 'bold';
+                        element_pour_texte_code_pas_bon.style.fontSize = '2em';
+                        document.body.appendChild(element_pour_texte_code_pas_bon);
+                        // en plus, on désactive le bouton
+                        bouton.setAttribute('disabled', 'disabled');
+                        // on change le texte du bouton en "Vous êtes en prison, interdit de cliquer"
+                        bouton.textContent = "Vous êtes en prison, interdit de cliquer";
+                        // on désactive l'input 
+                        input_element.setAttribute('disabled', 'disabled');
+
+
+                        // créer un élément image pour la police, c'est un fichier GIF 
+                        let element_image_police = document.createElement('img');
+                        element_image_police.setAttribute('src', './gif_police.gif');
+                        // tripler la taille de l'image : 
+                        element_image_police.style.width = '600px';
+                        
+                        // placer l'éélemtn image police au dessus du élément pour texte pas bon 
+                        document.body.insertBefore(element_image_police, element_pour_texte_code_pas_bon);
+
+                        
+
+                        
+                    }
+
+                }
+            });
+
+        });
+
+        // ajouter un écouteur d'évènement au survol
+        bouton.addEventListener('mouseover', function() {
+            console.log("Vous avez survolé le bouton")
+            console.log("mais il ne se passe toujours rien")
+            
+        });
+
+        
+
+
+    </script>
+</body>
+</html>
